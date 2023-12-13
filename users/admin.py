@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from projects.models import Project
 from .models import User
 
 
@@ -8,7 +7,3 @@ from .models import User
 class UserAdmin(admin.ModelAdmin):
     pass
 
-
-@admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
-    pass
