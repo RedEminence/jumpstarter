@@ -1,10 +1,12 @@
 from django.db import models
 
+
 class Project(models.Model):
     class Status(models.TextChoices):
         FUNDED = 'Профинансирован', 'funded'
         IN_PROGRESS = 'В процесе финансирования', 'in_progress'
         CANCELLED = 'Отменен', 'cancelled'
+        ON_MODERATION = 'На модерации', 'on_moderation'
 
     user = models.ForeignKey(
         'users.User',
@@ -22,6 +24,8 @@ class Project(models.Model):
     deadline = models.DateTimeField('Дедлайн')
 
     status = models.CharField('Статус', choices=Status.choices)
+
+    is_approved = models.BooleanField('Прошел модерацию', null=True)
 
     def __str__(self):
         return self.name
