@@ -1,10 +1,22 @@
 import os
 
+import django
+
 # Установка ссылки на конфиг приложения
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "jumpstarter.settings")
+django.setup()
+from django.apps import apps
+from rest_framework_simplejwt.tokens import AccessToken
 
-from django import db
 
-with db.connection.cursor() as cursor:
-    cursor.execute('SELECT * FROM public.users_user')
-    print(cursor.fetchall())
+
+User = apps.get_model("users", "User")
+
+# Генерируем секрет для юзера, который хочет изменить пароль
+access = AccessToken.for_user(User.objects.get(pk=1))
+
+# Валидируем и получаем айдишник юзера.
+# При вызове AccessToken() происходит валидация токена, если он невалидный, выбрасывается исключение.
+token_data = AccessToken(str(access))
+user_id = token_data['user_id']
+
